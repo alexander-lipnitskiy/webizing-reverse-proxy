@@ -1,0 +1,57 @@
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "urn:dev:ops:32473-Led-1234",
+    "title": "Led Sensor",
+    "securityDefinitions": {
+        "basic_sc": {"scheme": "basic", "in":"header"}
+    },
+    "security": ["basic_sc"],
+    "properties": {
+        "status" : {
+            "type": "string",
+            "description": "Status of LED Sensor. Represent current state of the device.",
+            "forms": [{"href": "https://led.example.com/status"}]
+        }
+    },
+    "events":{
+        "status":{
+            "data": {"type": "string"},
+            "description": "Status of LED Sensor. Sending an event when state is changed.",
+            "forms": [{
+                "href": "mqtt://led.example.com/status"
+            }]
+        }
+    }
+}
+
+{
+    "@context": "https://www.w3.org/2019/wot/td/v1",
+    "id": "urn:dev:ops:32473-Switch-1234",
+    "title": "Switch Sensor",
+    "securityDefinitions": {
+        "basic_sc": {"scheme": "basic", "in":"header"}
+    },
+    "security": ["basic_sc"],
+    "properties": {
+        "status" : {
+            "type": "string",
+            "description": "Status of Switch Sensor. Represent current state of the device.",
+            "forms": [{"href": "https://switch.example.com/status"}]
+        }
+    },
+    "actions": {
+        "toggle" : {
+            "description": "Turn on/off switch",
+            "forms": [{"href": "https://switch.example.com/toggle"}]
+        }
+    },
+    "events":{
+        "toggle":{
+            "data": {"type": "string"},
+            "forms": [{
+                "href": "mqtt://switch.example.com/toggle",
+                "description": "Status of Switch Sensor. Sending an event when state is changed.",
+            }]
+        }
+    }
+}
