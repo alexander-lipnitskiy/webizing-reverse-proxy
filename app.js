@@ -31,6 +31,10 @@ import cors from 'cors';
 
 const staticFileMiddleware = express.static('public', {
     setHeaders: function setHeaders(res, path, stat) {
+        res.header("Cache-Control", "no-cache, no-store, must-revalidate");
+        res.header("Pragma", "no-cache");
+        res.header("Expires", 0);
+
         res.header('Access-Control-Allow-Origin', '*')
         res.header('Access-Control-Allow-Methods', 'GET,HEAD,PUT,PATCH,POST,DELETE')
         res.header('Access-Control-Allow-Headers', 'Accept, Authorization, Content-Type, X-Requested-With, Range')
@@ -43,10 +47,11 @@ const __dirname = dirname(__filename);
 var app = express();
 
 app.use(cors())
+app.disable('etag');
 
 app.use(async function (req, res, next) {
     if(req.get('Content-Type') == 'application/json' || req.get('Content-Type') == 'application/ld+json') {
-        const response = await fetch(`http://0.0.0.0:4000${req.url}`);
+        const response = await fetch(`http://td-server:4000${req.url}`, {cache: "no-cache"});
         const app = await response.json();
         res.send(app)
     }
@@ -55,4 +60,4 @@ app.use(async function (req, res, next) {
 
 //app.use(serveStatic(__dirname + "/dist"));
 app.use(history())
-app.use(staticFileMiddleware).listen(8040, '0.0.0.0');
+app.use(staticFileMiddleware).listen(80, '0.0.0.0');
